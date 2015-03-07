@@ -1,0 +1,50 @@
+#!/bin/sh
+
+printf "+--------------------------------------------\n"
+printf "| AUSNIMBUS OPENSHIFT WORDPRESS GEAR RESTORE\n"
+printf "| DEV: Adan Rehtla [Adan@AdanRehtla.com]\n"
+printf "| VER: 1.0\n"
+printf "| DESC: Will backup PLUGINS, UPLOADS and SQL DATABASE\n"
+printf "+--------------------------------------------\n\n"
+
+read -p "Press [Enter] key to start restore of PLUGINS and UPLOADS..."
+
+# RESTORE DATA
+printf "\n+--------------------------------------------\n"
+printf "[AOWPGR]: Restoring backups of PLUGINS and UPLOADS\n"
+printf "+--------------------------------------------\n"
+mkdir +TEMP+
+ls *.LATEST.DATA.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
+rm -rf ../../data/plugins/*
+rm -rf ../../data/uploads/*
+cp -R +TEMP+/data/plugins/* ../../data/plugins
+cp -R +TEMP+/data/uploads/* ../../data/uploads
+printf "+--------------------------------------------\n"
+printf "[AOWPGR]: Finished restoring PLUGINS and UPLOADS\n"
+printf "+--------------------------------------------\n\n"
+
+read -p "Press [Enter] key to start restore of SQL DATABASE..."
+
+# RESTORE SQL DATABASE
+printf "\n+--------------------------------------------\n"
+printf "[AOWPGR]: Restoring backups of SQL DATABASE\n"
+printf "+--------------------------------------------\n"
+ls *.LATEST.SQL.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
+SQLFILE=$( ls +TEMP+/*.LATEST.sql )
+mysql --user="${OPENSHIFT_MYSQL_DB_USERNAME}" --password="${OPENSHIFT_MYSQL_DB_PASSWORD}" --host="${OPENSHIFT_MYSQL_DB_HOST}" --port="${OPENSHIFT_MYSQL_DB_PORT}" "${OPENSHIFT_APP_NAME}" < $SQLFILE
+printf "+--------------------------------------------\n"
+printf "[AOWPGR]: Finished restoring SQL DATABASE\n"
+printf "+--------------------------------------------\n\n"
+
+# REMOVE TEMP FOLDER
+rm -rf +TEMP+
+printf "+--------------------------------------------\n"
+printf "[AOWPGR]: Removed +TEMP+ folder\n"
+printf "+--------------------------------------------\n\n"
+
+
+
+printf "+--------------------------------------------\n"
+printf "[AOWPGR]: Script complete\n"
+printf "+--------------------------------------------\n\n"
+

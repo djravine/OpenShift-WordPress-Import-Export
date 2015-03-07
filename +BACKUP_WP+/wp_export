@@ -1,0 +1,50 @@
+#!/bin/sh
+DATE=$(date +%Y%m%d-%H%M%S)
+
+printf "+--------------------------------------------\n"
+printf "| AUSNIMBUS OPENSHIFT WORDPRESS GEAR BACKUP\n"
+printf "| DEV: Adan Rehtla [Adan@AdanRehtla.com]\n"
+printf "| VER: 1.0\n"
+printf "| DESC: Will backup PLUGINS, UPLOADS and SQL DATABASE\n"
+printf "+--------------------------------------------\n\n"
+
+read -p "Press [Enter] key to start backup..."
+
+# Remve old LATEST backups
+printf "\n+--------------------------------------------\n"
+printf "[AOWPGB]: Remove old LATEST Backups\n"
+printf "+--------------------------------------------\n"
+rm "${OPENSHIFT_APP_NAME}".LATEST.tar.gz
+rm "${OPENSHIFT_APP_NAME}".LATEST.sql.tar.gz
+printf "+--------------------------------------------\n\n"
+
+read -p "Press [Enter] key to start backing up PLUGINS and UPLOADS..."
+
+# BACKUP DATA
+printf "\n+--------------------------------------------\n"
+printf "[AOWPGB]: Making backups of PLUGINS and UPLOADS\n"
+printf "+--------------------------------------------\n"
+tar cvzf "${OPENSHIFT_APP_NAME}".LATEST.DATA.tar.gz ../../data/plugins ../../data/uploads
+cp "${OPENSHIFT_APP_NAME}".LATEST.DATA.tar.gz +BACKUP+/"${OPENSHIFT_APP_NAME}".$DATE.DATA.tar.gz
+printf "+--------------------------------------------\n"
+printf "[AOWPGB]: Finished backing up PLUGINS and UPLOADS\n"
+printf "+--------------------------------------------\n\n"
+
+read -p "Press [Enter] key to start backing up SQL DATABASE..."
+
+# BACKUP SQL DATABASE
+printf "\n+--------------------------------------------\n"
+printf "[AOWPGB]: Making backups of SQL DATABASE\n"
+printf "+--------------------------------------------\n"
+mysqldump --user="${OPENSHIFT_MYSQL_DB_USERNAME}" --password="${OPENSHIFT_MYSQL_DB_PASSWORD}" --host="${OPENSHIFT_MYSQL_DB_HOST}" --port="${OPENSHIFT_MYSQL_DB_PORT}" "${OPENSHIFT_APP_NAME}" > "${OPENSHIFT_APP_NAME}".LATEST.sql
+tar cvzf "${OPENSHIFT_APP_NAME}".LATEST.SQL.tar.gz "${OPENSHIFT_APP_NAME}".LATEST.sql
+rm "${OPENSHIFT_APP_NAME}".LATEST.sql
+cp "${OPENSHIFT_APP_NAME}".LATEST.SQL.tar.gz +BACKUP+/"${OPENSHIFT_APP_NAME}".$DATE.SQL.tar.gz
+printf "+--------------------------------------------\n"
+printf "[AOWPGB]: Finished backing up SQL DATABASE\n"
+printf "+--------------------------------------------\n\n"
+
+printf "+--------------------------------------------\n"
+printf "[AOWPGB]: Script complete\n"
+printf "+--------------------------------------------\n"
+
