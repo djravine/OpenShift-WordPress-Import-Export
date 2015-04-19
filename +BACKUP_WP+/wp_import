@@ -15,11 +15,11 @@ printf "[AOWPGR]: Restoring backups of PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n"
 mkdir +TEMP+
 ls *.LATEST.DATA.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
-rm -rf ../../data/plugins/*
-rm -rf ../../data/uploads/*
-cp -R +TEMP+/data/plugins/* ../../data/plugins
-cp -R +TEMP+/data/uploads/* ../../data/uploads
-printf "+--------------------------------------------\n"
+rm -rf ~/app-root/data/plugins/*
+rm -rf ~/app-root/data/uploads/*
+cp -R +TEMP+/data/plugins/* ~/app-root/data/plugins
+cp -R +TEMP+/data/uploads/* ~/app-root/data/uploads
+printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Finished restoring PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n\n"
 
@@ -32,7 +32,7 @@ printf "+--------------------------------------------\n"
 ls *.LATEST.SQL.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
 SQLFILE=$( ls +TEMP+/*.LATEST.sql )
 mysql --user="${OPENSHIFT_MYSQL_DB_USERNAME}" --password="${OPENSHIFT_MYSQL_DB_PASSWORD}" --host="${OPENSHIFT_MYSQL_DB_HOST}" --port="${OPENSHIFT_MYSQL_DB_PORT}" "${OPENSHIFT_APP_NAME}" < $SQLFILE
-printf "+--------------------------------------------\n"
+printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Finished restoring SQL DATABASE\n"
 printf "+--------------------------------------------\n\n"
 

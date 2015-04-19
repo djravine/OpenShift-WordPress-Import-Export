@@ -24,9 +24,9 @@ read -p "Press [Enter] key to start backing up PLUGINS and UPLOADS..."
 printf "\n+--------------------------------------------\n"
 printf "[AOWPGB]: Making backups of PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n"
-tar cvzf "${OPENSHIFT_APP_NAME}".LATEST.DATA.tar.gz ../../data/plugins ../../data/uploads
+tar cvzf "${OPENSHIFT_APP_NAME}".LATEST.DATA.tar.gz ~/app-root/data/plugins ~/app-root/data/uploads
 cp "${OPENSHIFT_APP_NAME}".LATEST.DATA.tar.gz +BACKUP+/"${OPENSHIFT_APP_NAME}".$DATE.DATA.tar.gz
-printf "+--------------------------------------------\n"
+printf "\n+--------------------------------------------\n"
 printf "[AOWPGB]: Finished backing up PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n\n"
 
@@ -40,7 +40,7 @@ mysqldump --user="${OPENSHIFT_MYSQL_DB_USERNAME}" --password="${OPENSHIFT_MYSQL_
 tar cvzf "${OPENSHIFT_APP_NAME}".LATEST.SQL.tar.gz "${OPENSHIFT_APP_NAME}".LATEST.sql
 rm "${OPENSHIFT_APP_NAME}".LATEST.sql
 cp "${OPENSHIFT_APP_NAME}".LATEST.SQL.tar.gz +BACKUP+/"${OPENSHIFT_APP_NAME}".$DATE.SQL.tar.gz
-printf "+--------------------------------------------\n"
+printf "\n+--------------------------------------------\n"
 printf "[AOWPGB]: Finished backing up SQL DATABASE\n"
 printf "+--------------------------------------------\n\n"
 
