@@ -15,12 +15,12 @@ read -p "Press [Enter] key to start restore of PLUGINS and UPLOADS..."
 printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Restoring backups of PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n"
-mkdir +TEMP+
-ls *.LATEST.DATA.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
+mkdir $DIR/+TEMP+
+ls *.LATEST.DATA.tar.gz | xargs -n1 tar -C $DIR/+TEMP+ -xvzf
 rm -rf ${OPENSHIFT_DATA_DIR}plugins/*
 rm -rf ${OPENSHIFT_DATA_DIR}uploads/*
-cp -R +TEMP+/data/plugins/* ${OPENSHIFT_DATA_DIR}plugins
-cp -R +TEMP+/data/uploads/* ${OPENSHIFT_DATA_DIR}uploads
+cp -R $DIR/+TEMP+/var/lib/openshift/*/app-root/data/plugins/* ${OPENSHIFT_DATA_DIR}plugins
+cp -R $DIR/+TEMP+/var/lib/openshift/*/app-root/data/uploads/* ${OPENSHIFT_DATA_DIR}uploads
 printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Finished restoring PLUGINS and UPLOADS\n"
 printf "+--------------------------------------------\n\n"
@@ -32,7 +32,7 @@ printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Restoring backups of SQL DATABASE\n"
 printf "+--------------------------------------------\n"
 ls *.LATEST.SQL.tar.gz | xargs -n1 tar -C +TEMP+ -xvzf
-SQLFILE=$( ls +TEMP+/*.LATEST.sql )
+SQLFILE=$( ls $DIR/+TEMP+/*.LATEST.sql )
 mysql --user="${OPENSHIFT_MYSQL_DB_USERNAME}" --password="${OPENSHIFT_MYSQL_DB_PASSWORD}" --host="${OPENSHIFT_MYSQL_DB_HOST}" --port="${OPENSHIFT_MYSQL_DB_PORT}" "${OPENSHIFT_APP_NAME}" < $SQLFILE
 printf "\n+--------------------------------------------\n"
 printf "[AOWPGR]: Finished restoring SQL DATABASE\n"
