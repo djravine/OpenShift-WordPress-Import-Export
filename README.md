@@ -1,6 +1,6 @@
 # OpenShift WordPress Import Export
 
-Allows OpenShift WordPress Quick Starter Users a flexible way to import and export their SQL database, data/plugins and data/uploads.
+Allows OpenShift WordPress Quick Starter Users a flexible way to import and export their SQL database, ~/data/plugins and ~/data/uploads.
 
 This is exceptionally useful when migrating between OpenShift Application installs and keeping full backups of all dynamic data in the OpenShift WordPress Quick Starter Application.
 
